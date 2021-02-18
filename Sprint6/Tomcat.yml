@@ -1,0 +1,20 @@
+---
+- hosts: webservers
+  become: yes
+  tasks:
+    - name: "Install Tomcat8"
+      apt:
+        name: tomcat8
+        state: present
+    - name: "Start the Tomcat service"
+      service: name=tomcat8 state=started
+    - name: "Pause for 10 seconds"
+      pause:
+        seconds: 10
+    - name: Check tomcat status
+      command: systemctl status tomcat8
+      register: result
+      ignore_errors: yes
+    - name: Showing report
+      debug:
+        var: result
