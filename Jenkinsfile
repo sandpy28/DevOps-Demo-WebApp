@@ -15,14 +15,14 @@ pipeline {
     }
     stage('Building image') {
       steps{
-	echo ‘building the application’
-	echo “building version ${NEW_VERSION}”
+	echo 'building the application'
+	echo "building version ${NEW_VERSION}"
         script { dockerImage = docker.build imagename }
       }
     }
     stage('Deploy Image') {
       steps{
-	echo “deploying with ${registryCredential}”
+	echo "deploying with ${registryCredential}"
         script {
           docker.withRegistry( '', registryCredential ) {
             dockerImage.push("$BUILD_NUMBER")
