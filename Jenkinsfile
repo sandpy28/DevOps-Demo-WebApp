@@ -3,7 +3,7 @@ pipeline {
     imagename = "sandpy28/ubuntu"
     registryCredential = credentials(‘docker’)
     dockerImage = ''
-    NEW_VERSION = ‘1.3.0’
+    NEW_VERSION = "1.3.0"
   }
   agent any
   stages {
