@@ -1,5 +1,11 @@
 #!/usr/bin/env groovy
 pipeline {
+  environment {
+    imagename = "sandpy28/ubuntu"
+    registryCredential = credentials('docker')
+    dockerImage = ''
+    NEW_VERSION = ‘1.3.0’
+  }
   agent any
   stages {
 stage('usernamePassword') {
