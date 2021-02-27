@@ -16,7 +16,7 @@ stage('usernamePassword') {
   // note: single quotes prevent Groovy interpolation; expansion is by Bourne Shell, which is what you want
   //sh 'echo $PASSWORD'
   // also available as a Groovy variable
-  echo USERNAME
+  echo “deploying with ${registryCredential}”
   // or inside double quotes for string interpolation
   echo "username is $USERNAME"
           }
