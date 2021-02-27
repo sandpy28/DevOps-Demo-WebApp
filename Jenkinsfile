@@ -1,8 +1,9 @@
 pipeline {
   environment {
     imagename = "sandpy28/ubuntu"
-    registryCredential = ‘docker’
+    registryCredential = credentials(‘docker’)
     dockerImage = ''
+    NEW_VERSION = ‘1.3.0’
   }
   agent any
   stages {
@@ -14,13 +15,14 @@ pipeline {
     }
     stage('Building image') {
       steps{
-        script {
-          dockerImage = docker.build imagename
-        }
+	      echo ‘building the application’
+	      echo “building version ${NEW_VERSION}”
+        script { dockerImage = docker.build imagename }
       }
     }
     stage('Deploy Image') {
       steps{
+	       echo “deploying with ${registryCredential}”
         script {
           docker.withRegistry( '', registryCredential ) {
             dockerImage.push("$BUILD_NUMBER")
@@ -34,7 +36,6 @@ pipeline {
       steps{
         sh "docker rmi $imagename:$BUILD_NUMBER"
          sh "docker rmi $imagename:latest"
-
       }
     }
   }
