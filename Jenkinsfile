@@ -33,6 +33,11 @@ stage('Static Code Analysis') {
                 }
            }
        }
+stage('Publish HTML Report') {
+steps{
+publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: false, reportDir: '\\Acceptancetest\\target\\surefire-reports', reportFiles: 'index.html', reportName: 'Sanity Test HTML Report', reportTitles: ''])
+	}
+}
     stage('Building image') {
       steps{
 	echo 'building the application'
