@@ -33,7 +33,6 @@ stage('Static Code Analysis') {
                 }
            }
        }
- }
     stage('Building image') {
       steps{
 	echo 'building the application'
