@@ -62,17 +62,24 @@ stage('Docker Build and Tag') {
                 sh 'docker tag webapp sandpy28/webapp:latest'
           }
         }
-    stage('Deploy Image') {
+stage('Publish image to Docker Hub') {
+            steps {
+        withDockerRegistry([ credentialsId: "docker", url: "" ]) {
+          sh  'docker push sandpy28/webapp:latest'
+        		}         
+        	}
+        }
+/*    stage('Deploy Image') {
       steps{
 	//echo "deploying with ${registryCredential}"
         script {
           docker.withRegistry( '', registryCredential ) {
-            dockerImage.push("$BUILD_NUMBER")
-             dockerImage.push('latest')
-
+            //dockerImage.push("$BUILD_NUMBER")
+            dockerImage.push('latest')
           }
         }
       }
-    }
+    }*/
+	  
   }
 }
