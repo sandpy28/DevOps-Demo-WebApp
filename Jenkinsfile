@@ -38,13 +38,19 @@ steps{
 publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: false, reportDir: '\\Acceptancetest\\target\\surefire-reports', reportFiles: 'index.html', reportName: 'Sanity Test HTML Report', reportTitles: ''])
 	}
 }
-    stage('Building image') {
+/*    stage('Building image') {
       steps{
 	echo 'building the application'
 	echo "building version ${NEW_VERSION}"
         script { dockerImage = docker.build imagename }
       }
-    }
+    } */
+stage('Docker Build and Tag') {
+           steps {
+                sh 'docker build -t webapp:latest .'
+                sh 'docker tag webapp sandpy28/webapp:latest'
+          }
+        }
     stage('Deploy Image') {
       steps{
 	//echo "deploying with ${registryCredential}"
