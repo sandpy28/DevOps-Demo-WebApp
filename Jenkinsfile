@@ -49,13 +49,6 @@ steps{
 publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: false, reportDir: '\\Acceptancetest\\target\\surefire-reports', reportFiles: 'index.html', reportName: 'Sanity Test HTML Report', reportTitles: ''])
 	}
 }
-/*    stage('Building image') {
-      steps{
-	echo 'building the application'
-	echo "building version ${NEW_VERSION}"
-        script { dockerImage = docker.build imagename }
-      }
-    } */
 stage('Docker Build and Tag') {
            steps {
                 sh 'docker build -t webapp:latest .'
@@ -69,7 +62,26 @@ stage('Publish image to Docker Hub') {
         		}         
         	}
         }
-/*    stage('Deploy Image') {
+stage('Run Docker container on remote hosts') {         
+            steps {
+                sh "docker -H ssh://root@45.62.251.60 run -d -p 8081:8080 sandpy28/webapp:latest"
+            }
+        }
+	  /*
+	  stage('Remove Unused docker image') {
+      steps{
+        sh "docker rmi $imagename:$BUILD_NUMBER"
+         sh "docker rmi $imagename:latest"
+      }
+    }
+    stage('Building image') {
+      steps{
+	echo 'building the application'
+	echo "building version ${NEW_VERSION}"
+        script { dockerImage = docker.build imagename }
+      }
+    } 
+	stage('Deploy Image') {
       steps{
 	//echo "deploying with ${registryCredential}"
         script {
